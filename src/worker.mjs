@@ -1849,7 +1849,7 @@ export function runDomainEngineBySlug(slug, rawInput, toolName = "") {
 }
 
 
-const INITIAL_DATALAKE_DOCS = [
+export const INITIAL_DATALAKE_DOCS = [
   {
     id: "dl-doc-01",
     tenantId: "tenant-worksai-demo",
