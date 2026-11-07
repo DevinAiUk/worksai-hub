@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate-and-test:
-    name: Lint, Brand/Secret Gate, Typecheck & Automated Tests
+    name: Lint, Brand/Secret Gate, TypeScript Check & Automated Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,33 +19,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Run Lint, Secret & Brand Hygiene Gate
+      - name: Run Lint & Brand/Secret Hygiene Gate
         run: npm run lint
 
-      - name: Run Syntax & Type Verification
+      - name: Run TypeScript & ESM Syntax Verification
         run: npm run typecheck
 
-      - name: Run Automated Unit, Integration & MCP Tests
+      - name: Validate SQL Migrations Exist & Are Non-Empty
+        run: test -s migrations/0001_worksai_hub.sql && test -s migrations/0002_seed_worksai_hub.sql
+
+      - name: Run Automated Unit, Negative Security & Durable R2 Revocation Tests
         run: npm test
 
       - name: Build Production Bundle
         run: npm run build
 
-  deploy-cloudflare-worker:
-    name: Deploy to Cloudflare Workers (worksai.org)
-    needs: validate-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy Worker via Wrangler
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Post-Deploy Live Health & MCP Verification
+      - name: Post-Deploy Live HTTPS Smoke Check (worksai.org & preview.worksai.org)
         run: |
           curl --fail --silent --show-error https://worksai.org/api/health | grep '"ok":true'
+          curl --fail --silent --show-error https://preview.worksai.org/api/health | grep '"ok":true'

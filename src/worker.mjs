@@ -25,7 +25,14 @@ export const APPS_CATALOG = [
     "subdomain": "canvasarch.worksai.org",
     "appUrl": "https://canvasarch.worksai.org",
     "mcpEndpoint": "https://canvasarch.worksai.org/api/mcp",
-    "aiEndpoint": "https://canvasarch.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://canvasarch.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Parse plain-English or Mermaid specs into positioned architecture nodes/edges, detect single-point-of-failure (SPOF) bottlenecks, render & export interactive SVG diagrams, and persist multi-board snapshots to Cloudflare R2.",
+      "persistedFeatures": "Saved architecture specs, generated SVG topologies, and SPOF audit snapshots persisted in Cloudflare R2 (workspaces/worksai-canvasarch/*) and Neon Postgres.",
+      "deterministicUtilities": "parseArchitectureSpec (directed graph layout & fan-in/fan-out SPOF calculation) and renderArchitectureSvg (accessible SVG generator).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) unstructured prose-to-topology expansion and architectural risk remediation advice when invoked with mode='ai_assisted'.",
+      "knownLimitations": "Real-time multi-cursor WebSocket collaboration requires an external Durable Object room relay; standalone mode uses R2 snapshot persistence."
+    }
   },
   {
     "id": "worksai-02",
@@ -51,7 +58,14 @@ export const APPS_CATALOG = [
     "subdomain": "ledgerflow.worksai.org",
     "appUrl": "https://ledgerflow.worksai.org",
     "mcpEndpoint": "https://ledgerflow.worksai.org/api/mcp",
-    "aiEndpoint": "https://ledgerflow.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://ledgerflow.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Normalize CSV/JSON bank & SaaS ledger rows, enforce zero-based monthly budgeting, flag vendor subscription price creep (>5% increase), and calculate 90-day net cashflow runway.",
+      "persistedFeatures": "Normalized ledger batches, price-creep alerts, and 90-day runway snapshots persisted in Cloudflare R2 (workspaces/worksai-ledgerflow/*) and Neon Postgres.",
+      "deterministicUtilities": "normalizeAndBudgetTransactions (regex vendor categorization, cent-exact zero-based budgeting, and 90-day burn projection).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) executive variance commentary and vendor consolidation recommendations.",
+      "knownLimitations": "Live Plaid/GoCardless bank feed polling requires user API credentials; CSV/JSON import works out of the box."
+    }
   },
   {
     "id": "worksai-03",
@@ -77,7 +91,14 @@ export const APPS_CATALOG = [
     "subdomain": "wavecut.worksai.org",
     "appUrl": "https://wavecut.worksai.org",
     "mcpEndpoint": "https://wavecut.worksai.org/api/mcp",
-    "aiEndpoint": "https://wavecut.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://wavecut.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Analyze audio sample arrays for silence intervals (<0.02 RMS), construct valid 44-byte RIFF WAVE 16-bit mono PCM containers, and format timestamped podcast chapter Markdown.",
+      "persistedFeatures": "Trimmed waveform metadata, silence interval logs, and chapter Markdown persisted in Cloudflare R2 (workspaces/worksai-wavecut-studio/*).",
+      "deterministicUtilities": "analyzeWaveformAndBuildChapters (RMS window silence detector, DataView 44-byte RIFF WAVE PCM header builder, and Markdown chapter formatter).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) show-notes summarization and chapter title refinement.",
+      "knownLimitations": "Operates on PCM sample buffers and transcript segments; MP3 encoding is intentionally omitted to preserve 100% MIT licensing."
+    }
   },
   {
     "id": "worksai-04",
@@ -103,7 +124,14 @@ export const APPS_CATALOG = [
     "subdomain": "growthpulse.worksai.org",
     "appUrl": "https://growthpulse.worksai.org",
     "mcpEndpoint": "https://growthpulse.worksai.org/api/mcp",
-    "aiEndpoint": "https://growthpulse.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://growthpulse.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Evaluate multi-step conversion funnels (landing -> pricing -> signup) using cookieless daily-salted session hashes and identify largest stage drop-off bottlenecks.",
+      "persistedFeatures": "Cookieless funnel telemetry summaries and anomaly snapshots persisted in Cloudflare R2 (workspaces/worksai-growthpulse/*) and Neon Postgres.",
+      "deterministicUtilities": "evaluateFunnelAndAnomalies (cookieless salted session hashing, stage conversion math, and daily event aggregation).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) conversion bottleneck diagnosis and A/B hypothesis generation.",
+      "knownLimitations": "Processes batch/webhook event streams; client-side script tag tracking requires adding the GrowthPulse beacon snippet to target sites."
+    }
   },
   {
     "id": "worksai-05",
@@ -129,7 +157,14 @@ export const APPS_CATALOG = [
     "subdomain": "apisync.worksai.org",
     "appUrl": "https://apisync.worksai.org",
     "mcpEndpoint": "https://apisync.worksai.org/api/mcp",
-    "aiEndpoint": "https://apisync.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://apisync.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Diff OpenAPI route specifications against saved request collections, flag missing routes and unvalidated required fields, and generate contract test assertions.",
+      "persistedFeatures": "OpenAPI drift reports and generated contract test suites persisted in Cloudflare R2 (workspaces/worksai-apisync-studio/*).",
+      "deterministicUtilities": "auditOpenApiDrift (route map comparison, required field verification, and expect() assertion generator).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) edge-case test payload synthesis and breaking-change migration notes.",
+      "knownLimitations": "Evaluates JSON route descriptors and OpenAPI path summaries; full $ref external URL dereferencing requires pre-bundled specs."
+    }
   },
   {
     "id": "worksai-06",
@@ -155,7 +190,14 @@ export const APPS_CATALOG = [
     "subdomain": "omnidesk.worksai.org",
     "appUrl": "https://omnidesk.worksai.org",
     "mcpEndpoint": "https://omnidesk.worksai.org/api/mcp",
-    "aiEndpoint": "https://omnidesk.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://omnidesk.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Triage incoming support tickets by urgency (critical/high/normal) and churn risk, match against knowledge-base articles, and draft grounded operator replies with citations.",
+      "persistedFeatures": "Triaged ticket records, SLA urgency scores, and drafted replies persisted in Cloudflare R2 (workspaces/worksai-omnidesk/*).",
+      "deterministicUtilities": "triageAndDraftSupportReply (urgency/churn keyword classifier and deterministic KB article citation matcher).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) empathetic customer response polishing grounded strictly in matched KB articles.",
+      "knownLimitations": "Outbound email delivery of drafted replies requires a verified transactional sender domain in Resend or Postmark."
+    }
   },
   {
     "id": "worksai-07",
@@ -181,7 +223,14 @@ export const APPS_CATALOG = [
     "subdomain": "graphmind.worksai.org",
     "appUrl": "https://graphmind.worksai.org",
     "mcpEndpoint": "https://graphmind.worksai.org/api/mcp",
-    "aiEndpoint": "https://graphmind.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://graphmind.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Download and run the VS Code/Cursor extension (extension/extension.cjs + package.json) or use the companion web verifier to parse [[wiki-links]], compute backlinks, and flag orphan notes and broken links.",
+      "persistedFeatures": "Knowledge graph topology and orphan audit snapshots persisted in Cloudflare R2 (workspaces/worksai-graphmind/*).",
+      "deterministicUtilities": "analyzeMarkdownGraph (wiki-link regex parser, path-traversal guard, backlink graph builder, and orphan detector).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) semantic topic cluster naming and bridge-note suggestions.",
+      "knownLimitations": "Local filesystem note watching runs inside the downloadable VS Code extension (extension/extension.cjs); the web UI operates on submitted note arrays."
+    }
   },
   {
     "id": "worksai-08",
@@ -207,7 +256,14 @@ export const APPS_CATALOG = [
     "subdomain": "clipguard.worksai.org",
     "appUrl": "https://clipguard.worksai.org",
     "mcpEndpoint": "https://clipguard.worksai.org/api/mcp",
-    "aiEndpoint": "https://clipguard.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://clipguard.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Download and load the Chrome/Edge Manifest V3 extension (manifest.json + background.cjs + popup.html) or use the companion web verifier to redact OpenAI keys, GitHub PATs, AWS keys, private keys, and email PII.",
+      "persistedFeatures": "Redaction audit counts (without raw secrets) persisted in Cloudflare R2 (workspaces/worksai-clipguard/*).",
+      "deterministicUtilities": "scrubClipboardSecrets (deterministic regex & PEM block redactor for API keys, private keys, and email PII).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) contextual policy explanation for redacted payload categories.",
+      "knownLimitations": "OS-wide background clipboard interception requires loading the unpacked MV3 extension in Chrome/Edge; browser sandboxing restricts automatic clipboard reads without user gesture on the web."
+    }
   },
   {
     "id": "worksai-09",
@@ -233,7 +289,14 @@ export const APPS_CATALOG = [
     "subdomain": "commandbar.worksai.org",
     "appUrl": "https://commandbar.worksai.org",
     "mcpEndpoint": "https://commandbar.worksai.org/api/mcp",
-    "aiEndpoint": "https://commandbar.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://commandbar.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Download and run the executable Node CLI launcher (bin/worksai-commandbar.mjs) or use the companion web verifier for safe arithmetic calculation, fuzzy command ranking, and MCP tool dispatch.",
+      "persistedFeatures": "Command execution history and custom launcher shortcuts persisted in Cloudflare R2 (workspaces/worksai-commandbar/*).",
+      "deterministicUtilities": "executeCommandBarQuery (eval-free arithmetic tokenizer/evaluator and prefix/substring command ranker).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) natural-language intent-to-command routing when no exact fuzzy match exists.",
+      "knownLimitations": "Global OS hotkey registration requires running the downloadable CLI/desktop wrapper locally."
+    }
   },
   {
     "id": "worksai-10",
@@ -259,7 +322,14 @@ export const APPS_CATALOG = [
     "subdomain": "linkengine.worksai.org",
     "appUrl": "https://linkengine.worksai.org",
     "mcpEndpoint": "https://linkengine.worksai.org/api/mcp",
-    "aiEndpoint": "https://linkengine.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://linkengine.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Install the working PHP 8.2+ / WordPress plugin bridge (worksai-linkengine-wp-bridge.php) or call the Edge API to resolve smart shortlinks with SSRF protection, bot filtering, device routing, and UTM injection.",
+      "persistedFeatures": "Shortlink resolution logs and UTM campaign rules persisted in Cloudflare R2 (workspaces/worksai-linkengine/*).",
+      "deterministicUtilities": "resolveSmartShortlink (SSRF private-IP blocker, bot user-agent filter, iOS/Android/fallback router, and UTM query builder).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) semantic anchor-text and internal topic-cluster link recommendations.",
+      "knownLimitations": "Automatic WordPress post-save hook execution requires installing the downloadable PHP plugin on a WordPress host."
+    }
   },
   {
     "id": "worksai-11",
@@ -285,7 +355,14 @@ export const APPS_CATALOG = [
     "subdomain": "commercecatalog.worksai.org",
     "appUrl": "https://commercecatalog.worksai.org",
     "mcpEndpoint": "https://commercecatalog.worksai.org/api/mcp",
-    "aiEndpoint": "https://commercecatalog.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://commercecatalog.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Install the working PHP 8.2+ / Bagisto / WooCommerce bridge (worksai-commercecatalog-bridge.php) or call the Edge API to enforce minimum margin floors on discounted SKUs and generate Schema.org Product JSON-LD.",
+      "persistedFeatures": "Enriched SKU records and Product JSON-LD schemas persisted in Cloudflare R2 (workspaces/worksai-commercecatalog/*).",
+      "deterministicUtilities": "enrichSkuAndBuildProductJsonLd (margin-floor price calculator, HTML sanitizer, and Schema.org/Product JSON-LD builder).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) SEO-optimized product copy and structured attribute extraction.",
+      "knownLimitations": "Direct Bagisto/WooCommerce database catalog writeback requires installing the downloadable PHP bridge in your store environment."
+    }
   },
   {
     "id": "worksai-12",
@@ -311,7 +388,14 @@ export const APPS_CATALOG = [
     "subdomain": "forumpulse.worksai.org",
     "appUrl": "https://forumpulse.worksai.org",
     "mcpEndpoint": "https://forumpulse.worksai.org/api/mcp",
-    "aiEndpoint": "https://forumpulse.worksai.org/api/ai/analyze"
+    "aiEndpoint": "https://forumpulse.worksai.org/api/ai/analyze",
+    "capabilityMatrix": {
+      "userCapabilities": "Install the working PHP 8.2+ / Flarum / WordPress bridge (worksai-forumpulse-bridge.php) or call the Edge API to score community threads for link-spam/toxicity and synthesize Schema.org FAQPage JSON-LD.",
+      "persistedFeatures": "Moderated thread audits and FAQPage JSON-LD schemas persisted in Cloudflare R2 (workspaces/worksai-forumpulse/*).",
+      "deterministicUtilities": "moderateThreadAndBuildFaqJsonLd (spam/toxicity scorer, quarantine gate, and Schema.org/FAQPage JSON-LD generator).",
+      "genuineAiFeatures": "Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) multi-reply thread summarization into canonical FAQ answers.",
+      "knownLimitations": "Automatic forum webhook moderation requires installing the downloadable PHP bridge on your Flarum or WordPress instance."
+    }
   }
 ];
 export const ARTICLES_CATALOG = [
@@ -1928,118 +2012,117 @@ const LEGACY_WP_TO_SLUG = Object.fromEntries([
   ...ARTICLES_CATALOG.map((a) => [a.slug, a.slug])
 ]);
 
-const DEFAULT_BA_SECRET = "worksai-better-auth-hmac-sha256-key-2026-prod";
+const DEFAULT_AUTH_SECRET = "worksai-webcrypto-hmac-sha256-key-2026-prod";
 
-function b64urlEncode(str) {
-  const bytes = new TextEncoder().encode(str);
+async function getSubtleCrypto() {
+  if (globalThis.crypto && globalThis.crypto.subtle) {
+    return globalThis.crypto.subtle;
+  }
+  const nodeCrypto = await import("node:crypto");
+  return nodeCrypto.webcrypto.subtle;
+}
+
+function bytesToHex(bytes) {
+  let hex = "";
+  for (let i = 0; i < bytes.length; i++) {
+    hex += bytes[i].toString(16).padStart(2, "0");
+  }
+  return hex;
+}
+
+function b64urlEncodeBytes(bytes) {
   let bin = "";
   for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
   return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-function b64urlDecodeToString(b64u) {
+function b64urlEncode(str) {
+  return b64urlEncodeBytes(new TextEncoder().encode(str));
+}
+
+function b64urlDecodeToBytes(b64u) {
   const b64 = String(b64u).replace(/-/g, "+").replace(/_/g, "/") + "===".slice((b64u.length + 3) % 4);
   const bin = atob(b64);
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new TextDecoder().decode(bytes);
+  return bytes;
 }
 
-const SHA256_K = new Uint32Array([
-  0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-  0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-  0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-  0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-  0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-  0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-  0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-  0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
-]);
+function b64urlDecodeToString(b64u) {
+  return new TextDecoder().decode(b64urlDecodeToBytes(b64u));
+}
 
-function sha256Bytes(msgBytes) {
-  const rotr = (n, x) => (x >>> n) | (x << (32 - n));
-  const l = msgBytes.length;
-  const bitLen = l * 8;
-  const padLen = ((l + 9 + 63) & ~63);
-  const buf = new Uint8Array(padLen);
-  buf.set(msgBytes);
-  buf[l] = 0x80;
-  const dv = new DataView(buf.buffer);
-  dv.setUint32(padLen - 4, bitLen >>> 0, false);
-  dv.setUint32(padLen - 8, Math.floor(bitLen / 0x100000000), false);
-
-  let h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a;
-  let h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19;
-  const w = new Uint32Array(64);
-
-  for (let i = 0; i < padLen; i += 64) {
-    for (let t = 0; t < 16; t++) w[t] = dv.getUint32(i + t * 4, false);
-    for (let t = 16; t < 64; t++) {
-      const s0 = rotr(7, w[t - 15]) ^ rotr(18, w[t - 15]) ^ (w[t - 15] >>> 3);
-      const s1 = rotr(17, w[t - 2]) ^ rotr(19, w[t - 2]) ^ (w[t - 2] >>> 10);
-      w[t] = (w[t - 16] + s0 + w[t - 7] + s1) >>> 0;
-    }
-    let a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7;
-    for (let t = 0; t < 64; t++) {
-      const S1 = rotr(6, e) ^ rotr(11, e) ^ rotr(25, e);
-      const ch = (e & f) ^ (~e & g);
-      const temp1 = (h + S1 + ch + SHA256_K[t] + w[t]) >>> 0;
-      const S0 = rotr(2, a) ^ rotr(13, a) ^ rotr(22, a);
-      const maj = (a & b) ^ (a & c) ^ (b & c);
-      const temp2 = (S0 + maj) >>> 0;
-      h = g; g = f; f = e; e = (d + temp1) >>> 0;
-      d = c; c = b; b = a; a = (temp1 + temp2) >>> 0;
-    }
-    h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0;
-    h4 = (h4 + e) >>> 0; h5 = (h5 + f) >>> 0; h6 = (h6 + g) >>> 0; h7 = (h7 + h) >>> 0;
+function constantTimeEqual(aBytes, bBytes) {
+  if (aBytes.length !== bBytes.length) return false;
+  let diff = 0;
+  for (let i = 0; i < aBytes.length; i++) {
+    diff |= aBytes[i] ^ bBytes[i];
   }
-  const out = new Uint8Array(32);
-  const odv = new DataView(out.buffer);
-  [h0, h1, h2, h3, h4, h5, h6, h7].forEach((v, idx) => odv.setUint32(idx * 4, v, false));
-  return out;
+  return diff === 0;
 }
 
-function hmacSha256B64Url(messageStr, secretStr) {
+export async function sha256HexWebCrypto(inputStr) {
+  const subtle = await getSubtleCrypto();
+  const digest = await subtle.digest("SHA-256", new TextEncoder().encode(String(inputStr)));
+  return bytesToHex(new Uint8Array(digest));
+}
+
+export async function hashPasswordPbkdf2(password, saltStr) {
+  const subtle = await getSubtleCrypto();
   const enc = new TextEncoder();
-  let keyBytes = enc.encode(secretStr);
-  if (keyBytes.length > 64) keyBytes = sha256Bytes(keyBytes);
-  const blockKey = new Uint8Array(64);
-  blockKey.set(keyBytes);
-  const oKeyPad = new Uint8Array(64);
-  const iKeyPad = new Uint8Array(64);
-  for (let i = 0; i < 64; i++) {
-    oKeyPad[i] = blockKey[i] ^ 0x5c;
-    iKeyPad[i] = blockKey[i] ^ 0x36;
-  }
-  const msgBytes = enc.encode(messageStr);
-  const innerInput = new Uint8Array(64 + msgBytes.length);
-  innerInput.set(iKeyPad, 0);
-  innerInput.set(msgBytes, 64);
-  const innerHash = sha256Bytes(innerInput);
-  const outerInput = new Uint8Array(64 + 32);
-  outerInput.set(oKeyPad, 0);
-  outerInput.set(innerHash, 64);
-  const sigBytes = sha256Bytes(outerInput);
-  let bin = "";
-  for (let i = 0; i < sigBytes.length; i++) bin += String.fromCharCode(sigBytes[i]);
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const keyMaterial = await subtle.importKey("raw", enc.encode(String(password)), "PBKDF2", false, ["deriveBits"]);
+  const bits = await subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt: enc.encode(String(saltStr)),
+      iterations: 100000,
+      hash: "SHA-256"
+    },
+    keyMaterial,
+    256
+  );
+  return bytesToHex(new Uint8Array(bits));
 }
 
-export async function signBetterAuthToken(sessionPayload, secret = DEFAULT_BA_SECRET) {
+export async function verifyPasswordPbkdf2(password, saltStr, expectedHex) {
+  const actualHex = await hashPasswordPbkdf2(password, saltStr);
+  const enc = new TextEncoder();
+  return constantTimeEqual(enc.encode(actualHex), enc.encode(String(expectedHex)));
+}
+
+export async function signWebCryptoSessionToken(sessionPayload, secret = DEFAULT_AUTH_SECRET) {
+  const subtle = await getSubtleCrypto();
   const payloadB64 = b64urlEncode(JSON.stringify(sessionPayload));
-  const sigB64 = hmacSha256B64Url(payloadB64, secret);
-  return `ba_sig_v1.${payloadB64}.${sigB64}`;
+  const key = await subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sigBuf = await subtle.sign("HMAC", key, new TextEncoder().encode(payloadB64));
+  const sigB64 = b64urlEncodeBytes(new Uint8Array(sigBuf));
+  return `ws_ses_v2.${payloadB64}.${sigB64}`;
 }
 
-export async function verifyBetterAuthToken(token, secret = DEFAULT_BA_SECRET) {
+export async function verifyWebCryptoSessionToken(token, secret = DEFAULT_AUTH_SECRET) {
   try {
     const parts = String(token || "").split(".");
-    if (parts.length !== 3 || parts[0] !== "ba_sig_v1") {
+    if (parts.length !== 3 || (parts[0] !== "ws_ses_v2" && parts[0] !== "ba_sig_v1")) {
       return { valid: false, reason: "invalid_format" };
     }
     const [, payloadB64, sigB64] = parts;
-    const expectedB64 = hmacSha256B64Url(payloadB64, secret);
-    if (sigB64 !== expectedB64) {
+    const subtle = await getSubtleCrypto();
+    const key = await subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["verify"]
+    );
+    const sigBytes = b64urlDecodeToBytes(sigB64);
+    const isValidSig = await subtle.verify("HMAC", key, sigBytes, new TextEncoder().encode(payloadB64));
+    if (!isValidSig) {
       return { valid: false, reason: "token_tampered" };
     }
     const payload = JSON.parse(b64urlDecodeToString(payloadB64));
@@ -2052,19 +2135,103 @@ export async function verifyBetterAuthToken(token, secret = DEFAULT_BA_SECRET) {
   }
 }
 
+// Keep backward-compatible export aliases for test suites
+export const signBetterAuthToken = signWebCryptoSessionToken;
+export const verifyBetterAuthToken = verifyWebCryptoSessionToken;
+
 export function createWorksAiStore() {
   return {
     users: new Map([
-      ["demo@worksai.org", { id: "usr-demo-admin", email: "demo@worksai.org", name: "WorksAI Demo Operator", defaultTenantId: "tenant-worksai-demo", isDemo: true, role: "demo_operator", password: "worksai-demo-2026" }],
-      ["alpha@worksai.org", { id: "usr-alpha-owner", email: "alpha@worksai.org", name: "Alpha Workspace Owner", defaultTenantId: "tenant-alpha-isolated", isDemo: false, role: "tenant_admin", password: "worksai-alpha-2026" }],
-      ["enterprise@worksai.org", { id: "usr-prod-ent", email: "enterprise@worksai.org", name: "Production Enterprise Admin", defaultTenantId: "tenant-prod-enterprise", isDemo: false, role: "enterprise_admin", password: "worksai-enterprise-2026" }]
+      [
+        "demo@worksai.org",
+        {
+          id: "usr-demo-admin",
+          email: "demo@worksai.org",
+          name: "WorksAI Demo Operator",
+          defaultTenantId: "tenant-worksai-demo",
+          isDemo: true,
+          role: "demo_operator",
+          passwordSalt: "salt-demo-worksai-2026",
+          password: "worksai-demo-2026"
+        }
+      ],
+      [
+        "alpha@worksai.org",
+        {
+          id: "usr-alpha-owner",
+          email: "alpha@worksai.org",
+          name: "Alpha Workspace Owner",
+          defaultTenantId: "tenant-alpha-isolated",
+          isDemo: false,
+          role: "tenant_admin",
+          passwordSalt: "salt-alpha-worksai-2026",
+          password: "worksai-alpha-2026"
+        }
+      ],
+      [
+        "enterprise@worksai.org",
+        {
+          id: "usr-prod-ent",
+          email: "enterprise@worksai.org",
+          name: "Production Enterprise Admin",
+          defaultTenantId: "tenant-prod-enterprise",
+          isDemo: false,
+          role: "enterprise_admin",
+          passwordSalt: "salt-enterprise-worksai-2026",
+          password: "worksai-enterprise-2026"
+        }
+      ]
     ]),
     sessions: new Map([
-      ["ba_demo_session_worksai_2026", { id: "ses-demo-01", userId: "usr-demo-admin", email: "demo@worksai.org", name: "WorksAI Demo Operator", tenantId: "tenant-worksai-demo", isDemo: true, role: "demo_operator", token: "ba_demo_session_worksai_2026", expiresAt: "2027-12-31T23:59:59Z" }],
-      ["ba_alpha_session_isolated_2026", { id: "ses-alpha-01", userId: "usr-alpha-owner", email: "alpha@worksai.org", name: "Alpha Workspace Owner", tenantId: "tenant-alpha-isolated", isDemo: false, role: "tenant_admin", token: "ba_alpha_session_isolated_2026", expiresAt: "2027-12-31T23:59:59Z" }],
-      ["ba_prod_enterprise_2026", { id: "ses-prod-01", userId: "usr-prod-ent", email: "enterprise@worksai.org", name: "Production Enterprise Admin", tenantId: "tenant-prod-enterprise", isDemo: false, role: "enterprise_admin", token: "ba_prod_enterprise_2026", expiresAt: "2027-12-31T23:59:59Z" }]
+      [
+        "ba_demo_session_worksai_2026",
+        {
+          id: "ses-demo-01",
+          userId: "usr-demo-admin",
+          email: "demo@worksai.org",
+          name: "WorksAI Demo Operator",
+          tenantId: "tenant-worksai-demo",
+          isDemo: true,
+          role: "demo_operator",
+          csrfToken: "csrf-demo-2026",
+          token: "ba_demo_session_worksai_2026",
+          expiresAt: "2027-12-31T23:59:59Z"
+        }
+      ],
+      [
+        "ba_alpha_session_isolated_2026",
+        {
+          id: "ses-alpha-01",
+          userId: "usr-alpha-owner",
+          email: "alpha@worksai.org",
+          name: "Alpha Workspace Owner",
+          tenantId: "tenant-alpha-isolated",
+          isDemo: false,
+          role: "tenant_admin",
+          csrfToken: "csrf-alpha-2026",
+          token: "ba_alpha_session_isolated_2026",
+          expiresAt: "2027-12-31T23:59:59Z"
+        }
+      ],
+      [
+        "ba_prod_enterprise_2026",
+        {
+          id: "ses-prod-01",
+          userId: "usr-prod-ent",
+          email: "enterprise@worksai.org",
+          name: "Production Enterprise Admin",
+          tenantId: "tenant-prod-enterprise",
+          isDemo: false,
+          role: "enterprise_admin",
+          csrfToken: "csrf-prod-2026",
+          token: "ba_prod_enterprise_2026",
+          expiresAt: "2027-12-31T23:59:59Z"
+        }
+      ]
     ]),
     revokedTokens: new Set(),
+    loginAttempts: new Map(),
+    apiRateBuckets: new Map(),
     documents: INITIAL_DATALAKE_DOCS.map((d) => ({ ...d, tags: [...d.tags] })),
     articles: ARTICLES_CATALOG.map((a) => ({ ...a }))
   };
@@ -2091,26 +2258,60 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
+export async function durablyRevokeToken(tok, store = defaultStore, env = {}, reason = "signed_out") {
+  if (!tok) return false;
+  store.revokedTokens.add(tok);
+  store.sessions.delete(tok);
+  const tokHash = await sha256HexWebCrypto(tok);
+  if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.put === "function") {
+    await env.DATALAKE_BUCKET.put(
+      `auth/revocations/${tokHash}`,
+      JSON.stringify({ revokedAt: new Date().toISOString(), reason }),
+      { httpMetadata: { contentType: "application/json" } }
+    );
+  }
+  return true;
+}
+
+export async function isTokenDurablyRevoked(tok, store = defaultStore, env = {}) {
+  if (!tok) return false;
+  if (store.revokedTokens && store.revokedTokens.has(tok)) return "token_revoked";
+  if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.get === "function") {
+    const tokHash = await sha256HexWebCrypto(tok);
+    const revObj = await env.DATALAKE_BUCKET.get(`auth/revocations/${tokHash}`);
+    if (revObj) {
+      store.revokedTokens.add(tok);
+      return "token_revoked_durable_r2";
+    }
+  }
+  return null;
+}
+
 export async function resolveAuth(req, store = defaultStore, env = {}) {
   const ah = req.headers.get("authorization") || "";
   let tok = ah.startsWith("Bearer ") ? ah.slice(7).trim() : null;
+  let viaCookie = false;
   if (!tok) {
     const ch = req.headers.get("cookie") || "";
-    const m = ch.match(/better-auth\.session_token=([^;]+)/);
-    if (m) tok = decodeURIComponent(m[1].trim());
+    const m = ch.match(/(?:worksai_session|better-auth\.session_token)=([^;]+)/);
+    if (m) {
+      tok = decodeURIComponent(m[1].trim());
+      viaCookie = true;
+    }
   }
   if (!tok) {
     return { authenticated: false, session: null, reason: "missing_token" };
   }
-  if (store.revokedTokens && store.revokedTokens.has(tok)) {
-    return { authenticated: false, session: null, reason: "token_revoked" };
+  const revReason = await isTokenDurablyRevoked(tok, store, env);
+  if (revReason) {
+    return { authenticated: false, session: null, reason: revReason };
   }
-  if (tok.startsWith("ba_sig_v1.")) {
-    const verified = await verifyBetterAuthToken(tok, env.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET);
+  if (tok.startsWith("ws_ses_v2.") || tok.startsWith("ba_sig_v1.")) {
+    const verified = await verifyWebCryptoSessionToken(tok, env.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET);
     if (!verified.valid) {
       return { authenticated: false, session: null, reason: verified.reason };
     }
-    return { authenticated: true, session: verified.session, reason: "verified_hmac_token" };
+    return { authenticated: true, session: verified.session, viaCookie, reason: "verified_webcrypto_hmac_token" };
   }
   const ses = store.sessions.get(tok);
   if (!ses) {
@@ -2119,7 +2320,45 @@ export async function resolveAuth(req, store = defaultStore, env = {}) {
   if (ses.expiresAt && new Date(ses.expiresAt).getTime() <= Date.now()) {
     return { authenticated: false, session: null, reason: "token_expired" };
   }
-  return { authenticated: true, session: ses, reason: "verified_store_session" };
+  return { authenticated: true, session: ses, viaCookie, reason: "verified_store_session" };
+}
+
+export function verifyCsrfProtection(req, auth) {
+  if (req.method !== "POST" && req.method !== "PUT" && req.method !== "DELETE") {
+    return { ok: true };
+  }
+  // Enforce Origin check when request uses Cookie authentication
+  const origin = req.headers.get("origin");
+  if (auth?.viaCookie && origin) {
+    try {
+      const u = new URL(origin);
+      const allowedHost = u.hostname === "worksai.org" || u.hostname.endsWith(".worksai.org") || u.hostname === "localhost";
+      if (!allowedHost) {
+        return { ok: false, status: 403, reason: "csrf_origin_mismatch", error: `CSRF protection blocked cross-origin request from '${origin}'.` };
+      }
+    } catch {
+      return { ok: false, status: 403, reason: "csrf_invalid_origin", error: "Invalid Origin header." };
+    }
+  }
+  return { ok: true };
+}
+
+export function checkLoginRateLimit(store, actorKey, now = Date.now()) {
+  if (!store.loginAttempts) store.loginAttempts = new Map();
+  const windowMs = 60000;
+  const maxAttempts = 5;
+  const history = (store.loginAttempts.get(actorKey) || []).filter((ts) => now - ts < windowMs);
+  if (history.length >= maxAttempts) {
+    return { allowed: false, retryAfterSec: Math.ceil((windowMs - (now - history[0])) / 1000) };
+  }
+  return { allowed: true, remaining: maxAttempts - history.length };
+}
+
+export function recordFailedLogin(store, actorKey, now = Date.now()) {
+  if (!store.loginAttempts) store.loginAttempts = new Map();
+  const history = (store.loginAttempts.get(actorKey) || []).filter((ts) => now - ts < 60000);
+  history.push(now);
+  store.loginAttempts.set(actorKey, history);
 }
 
 export function searchDataLake(store, params, auth) {
@@ -2188,7 +2427,7 @@ export async function ingestDataLakeRecord(store, body, auth, env = {}) {
     }
   }
   const id = `dl-doc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
-  const r2InternalUuidKey = `obj/${hmacSha256B64Url(id, env?.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET)}/payload`;
+  const r2InternalUuidKey = `obj/${await sha256HexWebCrypto(id + ':' + (env?.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET))}/payload`;
 
   if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.put === "function") {
     await env.DATALAKE_BUCKET.put(r2InternalUuidKey, content, {
@@ -2229,7 +2468,7 @@ export async function getAuthorizedDataLakeObject(store, docId, auth, env = {}) 
   }
   let doc = store.documents.find((d) => d.id === docId);
   let r2Obj = null;
-  const derivedOpaqueKey = `obj/${hmacSha256B64Url(docId, env?.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET)}/payload`;
+  const derivedOpaqueKey = `obj/${await sha256HexWebCrypto(docId + ':' + (env?.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET))}/payload`;
   if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.get === "function") {
     r2Obj = await env.DATALAKE_BUCKET.get(doc ? doc.r2InternalUuidKey : derivedOpaqueKey);
     if (!doc && r2Obj && r2Obj.customMetadata) {
@@ -3056,7 +3295,7 @@ export async function handleWorksAiRequest(request, env = {}, store = defaultSto
           language: "TypeScript / ESM",
           orm: "Drizzle ORM",
           database: "Neon Serverless Postgres (project: flat-art-36324621, schema: worksai_hub)",
-          auth: "Better Auth (HMAC-SHA256 + Session Revocation + Tenant/Demo Isolation)",
+          auth: "WorksAI WebCrypto Session Guard (WebCrypto PBKDF2-SHA256 + HMAC-SHA256 + Durable R2 Cross-Isolate Revocation + CSRF & Rate Limiting)",
           storage: "Cloudflare R2 (worksai-datalake) + Workers"
         },
         appsCount: APPS_CATALOG.length,
@@ -3114,73 +3353,124 @@ export async function handleWorksAiRequest(request, env = {}, store = defaultSto
 
   if (path === "/api/auth/demo" && request.method === "POST") {
     const baseSes = store.sessions.get("ba_demo_session_worksai_2026");
-    const signedTok = await signBetterAuthToken(
+    const csrfToken = `csrf_${Date.now().toString(36)}`;
+    const signedTok = await signWebCryptoSessionToken(
       {
-        id: baseSes.id,
+        id: "ses-demo-" + Date.now().toString(36),
         userId: baseSes.userId,
         email: baseSes.email,
         name: baseSes.name,
         tenantId: baseSes.tenantId,
         isDemo: true,
         role: baseSes.role,
+        csrfToken,
         issuedAt: new Date().toISOString(),
         expiresAt: "2027-12-31T23:59:59Z"
       },
-      env.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET
+      env.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET
     );
-    const ses = { ...baseSes, token: signedTok };
+    const ses = { ...baseSes, csrfToken, token: signedTok };
     store.sessions.set(signedTok, ses);
     return Response.json(
-      { ok: true, token: signedTok, session: ses },
-      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": `better-auth.session_token=${signedTok}; Path=/; HttpOnly; Secure; SameSite=Lax` }) }
+      { ok: true, authEngine: "WorksAI WebCrypto Session Guard (PBKDF2-SHA256 + HMAC-SHA256)", token: signedTok, csrfToken, session: ses },
+      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": `worksai_session=${signedTok}; Path=/; HttpOnly; Secure; SameSite=Lax` }) }
     );
   }
 
   if (path === "/api/auth/sign-in/email" && request.method === "POST") {
     const body = await request.json().catch(() => ({}));
     const email = String(body.email || "").trim().toLowerCase();
+    const clientIp = request.headers.get("cf-connecting-ip") || "127.0.0.1";
+    const rateKey = `${clientIp}:${email || "anon"}`;
+    const rl = checkLoginRateLimit(store, rateKey);
+    if (!rl.allowed) {
+      return Response.json(
+        { ok: false, status: 429, reason: "rate_limited", error: `Too many failed sign-in attempts. Retry after ${rl.retryAfterSec}s.` },
+        { status: 429, headers: secHeaders("application/json; charset=utf-8", { "retry-after": String(rl.retryAfterSec) }) }
+      );
+    }
     const user = store.users.get(email);
-    if (!user || user.password !== String(body.password || "")) {
+    if (!user) {
+      recordFailedLogin(store, rateKey);
       return Response.json({ ok: false, error: "Invalid email or password" }, { status: 401, headers: secHeaders("application/json; charset=utf-8") });
     }
+    if (!user.passwordHashHex) {
+      user.passwordHashHex = await hashPasswordPbkdf2(user.password, user.passwordSalt || "worksai-salt");
+    }
+    const validPass = await verifyPasswordPbkdf2(String(body.password || ""), user.passwordSalt || "worksai-salt", user.passwordHashHex);
+    if (!validPass) {
+      recordFailedLogin(store, rateKey);
+      return Response.json({ ok: false, error: "Invalid email or password" }, { status: 401, headers: secHeaders("application/json; charset=utf-8") });
+    }
+    const csrfToken = `csrf_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
     const payload = {
-      id: "ses-" + Date.now().toString(36),
+      id: "ses-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6),
       userId: user.id,
       email: user.email,
       name: user.name,
       tenantId: user.defaultTenantId,
       isDemo: Boolean(user.isDemo),
       role: user.role,
+      csrfToken,
       issuedAt: new Date().toISOString(),
       expiresAt: body.expiresAt || "2027-12-31T23:59:59Z"
     };
-    const token = await signBetterAuthToken(payload, env.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET);
+    const token = await signWebCryptoSessionToken(payload, env.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET);
     const session = { ...payload, token };
     store.sessions.set(token, session);
     return Response.json(
-      { ok: true, token, session },
-      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": `better-auth.session_token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax` }) }
+      { ok: true, authEngine: "WorksAI WebCrypto Session Guard (PBKDF2-SHA256 + HMAC-SHA256)", token, csrfToken, session },
+      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": `worksai_session=${token}; Path=/; HttpOnly; Secure; SameSite=Lax` }) }
+    );
+  }
+
+  if (path === "/api/auth/rotate" && request.method === "POST") {
+    if (!auth.authenticated) {
+      return Response.json({ ok: false, status: 401, reason: auth.reason, error: "Active session required to rotate token." }, { status: 401, headers: secHeaders("application/json; charset=utf-8") });
+    }
+    const csrfCheck = verifyCsrfProtection(request, auth);
+    if (!csrfCheck.ok) {
+      return Response.json(csrfCheck, { status: csrfCheck.status, headers: secHeaders("application/json; charset=utf-8") });
+    }
+    const oldToken = auth.session.token;
+    await durablyRevokeToken(oldToken, store, env, "session_rotated");
+    const newPayload = {
+      ...auth.session,
+      id: "ses-rot-" + Date.now().toString(36),
+      csrfToken: `csrf_${Date.now().toString(36)}`,
+      issuedAt: new Date().toISOString(),
+      expiresAt: "2027-12-31T23:59:59Z"
+    };
+    delete newPayload.token;
+    const newToken = await signWebCryptoSessionToken(newPayload, env.BETTER_AUTH_SECRET || DEFAULT_AUTH_SECRET);
+    const newSession = { ...newPayload, token: newToken };
+    store.sessions.set(newToken, newSession);
+    return Response.json(
+      { ok: true, rotated: true, revokedPreviousToken: true, token: newToken, session: newSession },
+      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": `worksai_session=${newToken}; Path=/; HttpOnly; Secure; SameSite=Lax` }) }
     );
   }
 
   if (path === "/api/auth/sign-out" && request.method === "POST") {
+    const csrfCheck = verifyCsrfProtection(request, auth);
+    if (!csrfCheck.ok) {
+      return Response.json(csrfCheck, { status: csrfCheck.status, headers: secHeaders("application/json; charset=utf-8") });
+    }
     const ah = request.headers.get("authorization") || "";
     let tok = ah.startsWith("Bearer ") ? ah.slice(7).trim() : null;
     if (!tok) {
       const ch = request.headers.get("cookie") || "";
-      const m = ch.match(/better-auth\.session_token=([^;]+)/);
+      const m = ch.match(/(?:worksai_session|better-auth\.session_token)=([^;]+)/);
       if (m) tok = decodeURIComponent(m[1].trim());
     }
     if (tok) {
-      store.revokedTokens.add(tok);
-      store.sessions.delete(tok);
+      await durablyRevokeToken(tok, store, env, "user_signed_out");
     }
     return Response.json(
-      { ok: true, signedOut: true, tokenRevoked: Boolean(tok) },
-      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": "better-auth.session_token=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax" }) }
+      { ok: true, signedOut: true, tokenRevoked: Boolean(tok), durableR2Revocation: Boolean(env?.DATALAKE_BUCKET && tok) },
+      { headers: secHeaders("application/json; charset=utf-8", { "set-cookie": "worksai_session=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax" }) }
     );
   }
-
   if (path === "/api/datalake/search" && request.method === "GET") {
     const results = searchDataLake(store, { q: url.searchParams.get("q") || "", category: url.searchParams.get("category") || "", appSlug: url.searchParams.get("appSlug") || "" }, auth);
     return Response.json(
@@ -3196,6 +3486,8 @@ export async function handleWorksAiRequest(request, env = {}, store = defaultSto
   }
 
   if (path === "/api/datalake/ingest" && request.method === "POST") {
+    const csrfCheck = verifyCsrfProtection(request, auth);
+    if (!csrfCheck.ok) return Response.json(csrfCheck, { status: csrfCheck.status, headers: secHeaders("application/json; charset=utf-8") });
     const body = await request.json().catch(() => ({}));
     const res = await ingestDataLakeRecord(store, body, auth, env);
     return Response.json(res, { status: res.status, headers: secHeaders("application/json; charset=utf-8") });
