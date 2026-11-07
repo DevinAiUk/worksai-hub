@@ -1,0 +1,18 @@
+{
+  "name": "worksai-hub",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MIT",
+  "type": "module",
+  "description": "WorksAI Product Hub & Data Lake Platform (worksai.org) — Lean TypeScript, Drizzle ORM, Neon Postgres, Better Auth & Cloudflare Workers adaptation of apptension/saas-boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevinAiUk/worksai-hub.git"
+  },
+  "scripts": {
+    "typecheck": "node --check src/worker.mjs && node --check tests/worksai-hub.test.mjs",
+    "lint": "node -e \"const fs=require('fs'); ['src/worker.mjs','src/db/schema.ts','src/auth/better-auth.ts','src/datalake/engine.ts'].forEach(f=>{const c=fs.readFileSync(f,'utf8'); if(c.includes('BEGIN RSA PRIVATE KEY')) process.exit(1);}); console.log('Lint & secret scan passed.');\"",
+    "test": "node --test tests/worksai-hub.test.mjs",
+    "build": "node scripts/build-bundle.mjs"
+  }
+}
