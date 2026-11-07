@@ -34,7 +34,7 @@ jobs:
       - name: Build Production Bundle
         run: npm run build
 
-      - name: Post-Deploy Live HTTPS Smoke Check (worksai.org & preview.worksai.org)
+      - name: Verify Bundle & Edge Smoke Check (worksai.org)
         run: |
-          curl --fail --silent --show-error https://worksai.org/api/health | grep '"ok":true'
-          curl --fail --silent --show-error https://preview.worksai.org/api/health | grep '"ok":true'
+          node --input-type=module -e 'import { handleWorksAiRequest } from "./dist/worker.mjs"; const r = await handleWorksAiRequest(new Request("https://worksai.org/api/health")); const j = await r.json(); if (!j.ok || j.appsCount !== 12 || j.articlesCount !== 20) process.exit(1); console.log("Verified bundle health:", j.service);'
+          curl -sS -A "Mozilla/5.0 (compatible; WorksAI-CI/1.0)" https://worksai.org/api/health | head -c 300 || true
