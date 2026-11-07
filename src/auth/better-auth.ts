@@ -1,8 +1,3 @@
-/**
- * Better Auth Compatible Authentication & Tenant Session Engine for WorksAI Hub
- * Supports credential sign-in, sign-up, demo session bootstrap, session verification,
- * and authorization-aware tenant isolation across `worksai_hub.users` & `worksai_hub.sessions`.
- */
 import type { BetterAuthSession, BetterAuthUser } from "../db/schema";
 
 export interface AuthContext {
@@ -15,7 +10,7 @@ export const DEMO_USERS: Record<string, BetterAuthUser & { passwordHash: string 
   "demo@worksai.org": {
     id: "usr-demo-admin",
     email: "demo@worksai.org",
-    name: "Devon Bowen (WorksAI Demo)",
+    name: "WorksAI Demo Operator",
     emailVerified: true,
     defaultTenantId: "tenant-worksai-demo",
     role: "admin",

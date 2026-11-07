@@ -1,0 +1,51 @@
+name: WorksAI CI/CD — worksai-hub
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-and-test:
+    name: Lint, Brand/Secret Gate, Typecheck & Automated Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run Lint, Secret & Brand Hygiene Gate
+        run: npm run lint
+
+      - name: Run Syntax & Type Verification
+        run: npm run typecheck
+
+      - name: Run Automated Unit, Integration & MCP Tests
+        run: npm test
+
+      - name: Build Production Bundle
+        run: npm run build
+
+  deploy-cloudflare-worker:
+    name: Deploy to Cloudflare Workers (worksai.org)
+    needs: validate-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker via Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Post-Deploy Live Health & MCP Verification
+        run: |
+          curl --fail --silent --show-error https://worksai.org/api/health | grep '"ok":true'
