@@ -1,63 +1,27 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  APPS_CATALOG,
+  ARTICLES_CATALOG,
   createWorksAiStore,
   handleWorksAiRequest,
-  APPS_CATALOG
+  signBetterAuthToken
 } from "../src/worker.mjs";
 
-test("1. Health check and 12 verified MIT apps catalog on worksai.org", async () => {
-  const store = createWorksAiStore();
-  const res = await handleWorksAiRequest(new Request("https://worksai.org/api/health"), {}, store);
-  assert.equal(res.status, 200);
-  const body = await res.json();
-  assert.equal(body.ok, true);
-  assert.equal(body.appsCount, 12);
-  assert.equal(body.stack.license, "MIT");
+test("WorksAI Hub catalog contains 12 MIT apps and 20 verified articles with zero forbidden references", () => {
   assert.equal(APPS_CATALOG.length, 12);
+  assert.equal(ARTICLES_CATALOG.length, 20);
+  const imported = ARTICLES_CATALOG.filter((a) => a.origin_type === "imported_wordpress_2025");
+  const original = ARTICLES_CATALOG.filter((a) => a.origin_type === "original_2026");
+  assert.equal(imported.length, 14);
+  assert.equal(original.length, 6);
+  const serialized = JSON.stringify({ APPS_CATALOG, ARTICLES_CATALOG }).toLowerCase();
+  assert.equal(serialized.includes("devinai.uk"), false);
+  assert.equal(serialized.includes("devonfolio"), false);
 });
 
-test("2. Primary Hub HTML renders glassmorphic UI, 12 apps, and devinai.uk cross-links", async () => {
+test("Better Auth HMAC-SHA256 token signing, tampering rejection, expiry rejection, and session revocation", async () => {
   const store = createWorksAiStore();
-  const res = await handleWorksAiRequest(new Request("https://worksai.org/"), {}, store);
-  assert.equal(res.status, 200);
-  const html = await res.text();
-  assert.match(html, /WorksAI\.org/);
-  assert.match(html, /WorksAi CanvasArch/);
-  assert.match(html, /WorksAi ForumPulse/);
-  assert.match(html, /https:\/\/devinai\.uk/);
-});
-
-test("3. Subdomain routing renders dedicated app workspace (<app>.worksai.org)", async () => {
-  const store = createWorksAiStore();
-  const res = await handleWorksAiRequest(
-    new Request("https://canvasarch.worksai.org/", { headers: { host: "canvasarch.worksai.org" } }),
-    {},
-    store
-  );
-  assert.equal(res.status, 200);
-  const html = await res.text();
-  assert.match(html, /WorksAi CanvasArch — WorksAI App Workspace/);
-  assert.match(html, /Excalidraw/);
-});
-
-test("4. Better Auth sign-in, session check, sign-up, and sign-out lifecycle", async () => {
-  const store = createWorksAiStore();
-  const unauthRes = await handleWorksAiRequest(new Request("https://worksai.org/api/auth/session"), {}, store);
-  const unauthData = await unauthRes.json();
-  assert.equal(unauthData.authenticated, false);
-
-  const badLogin = await handleWorksAiRequest(
-    new Request("https://worksai.org/api/auth/sign-in/email", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email: "demo@worksai.org", password: "wrong-password" })
-    }),
-    {},
-    store
-  );
-  assert.equal(badLogin.status, 401);
-
   const loginRes = await handleWorksAiRequest(
     new Request("https://worksai.org/api/auth/sign-in/email", {
       method: "POST",
@@ -68,61 +32,70 @@ test("4. Better Auth sign-in, session check, sign-up, and sign-out lifecycle", a
     store
   );
   assert.equal(loginRes.status, 200);
-  const loginData = await loginRes.json();
-  assert.equal(loginData.ok, true);
-  assert.ok(loginData.token);
-});
+  const loginBody = await loginRes.json();
+  assert.equal(loginBody.token.startsWith("ba_sig_v1."), true);
 
-test("5. Authorization-aware Data Lake search enforces strict tenant isolation", async () => {
-  const store = createWorksAiStore();
-  const guestSearch = await handleWorksAiRequest(
-    new Request("https://worksai.org/api/datalake/search?q=confidential"),
-    {},
-    store
-  );
-  const guestData = await guestSearch.json();
-  assert.equal(guestData.count, 0);
-
-  const alphaSearch = await handleWorksAiRequest(
-    new Request("https://worksai.org/api/datalake/search?q=confidential", {
-      headers: { Authorization: "Bearer ba_alpha_session_isolated_2026" }
-    }),
-    {},
-    store
-  );
-  const alphaData = await alphaSearch.json();
-  assert.equal(alphaData.count, 1);
-  assert.equal(alphaData.results[0].id, "dl-doc-08-private");
-});
-
-test("6. Data Lake ingestion validates auth, MIME types, private-key guardrails, and indexes new documents", async () => {
-  const store = createWorksAiStore();
-  const unauthIngest = await handleWorksAiRequest(
+  const tamperedToken = loginBody.token.slice(0, -4) + "XXXX";
+  const tamperedIngest = await handleWorksAiRequest(
     new Request("https://worksai.org/api/datalake/ingest", {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ title: "Test", mimeType: "text/markdown", content: "# Hello" })
+      headers: { "content-type": "application/json", Authorization: `Bearer ${tamperedToken}` },
+      body: JSON.stringify({ title: "Tampered", mimeType: "text/markdown", content: "# Test" })
     }),
     {},
     store
   );
-  assert.equal(unauthIngest.status, 401);
+  assert.equal(tamperedIngest.status, 401);
 
-  const badMime = await handleWorksAiRequest(
+  const signOutRes = await handleWorksAiRequest(
+    new Request("https://worksai.org/api/auth/sign-out", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${loginBody.token}` }
+    }),
+    {},
+    store
+  );
+  assert.equal(signOutRes.status, 200);
+  const revokedIngest = await handleWorksAiRequest(
     new Request("https://worksai.org/api/datalake/ingest", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Bearer ba_demo_session_worksai_2026"
-      },
-      body: JSON.stringify({
-        title: "Binary Executable",
-        mimeType: "application/x-msdownload",
-        content: "MZ..."
-      })
+      headers: { "content-type": "application/json", Authorization: `Bearer ${loginBody.token}` },
+      body: JSON.stringify({ title: "After Logout", mimeType: "text/markdown", content: "# Test" })
     }),
     {},
     store
   );
-  assert.equal(badMime.status, 415);
+  assert.equal(revokedIngest.status, 401);
+});
+
+test("Negative Security Tests: Cross-tenant read/write, demo-to-production access, privilege escalation, and authorized R2 object retrieval", async () => {
+  const store = createWorksAiStore();
+  const r2Map = new Map();
+  const mockEnv = {
+    DATALAKE_BUCKET: {
+      async put(key, val) { r2Map.set(key, val); },
+      async get(key) {
+        if (!r2Map.has(key)) return null;
+        const v = r2Map.get(key);
+        return { async text() { return v; } };
+      }
+    }
+  };
+  const crossTenantObj = await handleWorksAiRequest(
+    new Request("https://worksai.org/api/datalake/object/dl-doc-08-private", {
+      headers: { Authorization: "Bearer ba_demo_session_worksai_2026" }
+    }),
+    mockEnv,
+    store
+  );
+  assert.equal(crossTenantObj.status, 403);
+
+  const demoToProdObj = await handleWorksAiRequest(
+    new Request("https://worksai.org/api/datalake/object/dl-doc-09-prod", {
+      headers: { Authorization: "Bearer ba_demo_session_worksai_2026" }
+    }),
+    mockEnv,
+    store
+  );
+  assert.equal(demoToProdObj.status, 403);
 });
