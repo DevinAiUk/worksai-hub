@@ -2188,8 +2188,7 @@ export async function ingestDataLakeRecord(store, body, auth, env = {}) {
     }
   }
   const id = `dl-doc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
-  const opaqueUuid = typeof globalThis.crypto?.randomUUID === "function" ? globalThis.crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  const r2InternalUuidKey = `obj/${opaqueUuid}/payload`;
+  const r2InternalUuidKey = `obj/${hmacSha256B64Url(id, env?.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET)}/payload`;
 
   if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.put === "function") {
     await env.DATALAKE_BUCKET.put(r2InternalUuidKey, content, {
@@ -2225,12 +2224,27 @@ export async function ingestDataLakeRecord(store, body, auth, env = {}) {
 }
 
 export async function getAuthorizedDataLakeObject(store, docId, auth, env = {}) {
-  const doc = store.documents.find((d) => d.id === docId);
-  if (!doc) {
-    return { ok: false, status: 404, error: `Data Lake object '${docId}' not found.` };
-  }
   if (!auth || !auth.authenticated) {
     return { ok: false, status: 401, reason: auth?.reason || "unauthenticated", error: "Authentication required to retrieve raw R2 Data Lake objects." };
+  }
+  let doc = store.documents.find((d) => d.id === docId);
+  let r2Obj = null;
+  const derivedOpaqueKey = `obj/${hmacSha256B64Url(docId, env?.BETTER_AUTH_SECRET || DEFAULT_BA_SECRET)}/payload`;
+  if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.get === "function") {
+    r2Obj = await env.DATALAKE_BUCKET.get(doc ? doc.r2InternalUuidKey : derivedOpaqueKey);
+    if (!doc && r2Obj && r2Obj.customMetadata) {
+      doc = {
+        id: docId,
+        tenantId: r2Obj.customMetadata.tenantId,
+        isDemo: r2Obj.customMetadata.isDemo === "true",
+        mimeType: r2Obj.httpMetadata?.contentType || "text/markdown",
+        r2InternalUuidKey: derivedOpaqueKey,
+        content: ""
+      };
+    }
+  }
+  if (!doc) {
+    return { ok: false, status: 404, error: `Data Lake object '${docId}' not found.` };
   }
   if (doc.tenantId !== auth.session.tenantId || Boolean(doc.isDemo) !== Boolean(auth.session.isDemo)) {
     return {
@@ -2241,12 +2255,9 @@ export async function getAuthorizedDataLakeObject(store, docId, auth, env = {}) 
   }
   let bodyText = doc.content;
   let r2Source = "memory_fallback";
-  if (env && env.DATALAKE_BUCKET && typeof env.DATALAKE_BUCKET.get === "function") {
-    const obj = await env.DATALAKE_BUCKET.get(doc.r2InternalUuidKey);
-    if (obj && typeof obj.text === "function") {
-      bodyText = await obj.text();
-      r2Source = "cloudflare_r2_bucket";
-    }
+  if (r2Obj && typeof r2Obj.text === "function") {
+    bodyText = await r2Obj.text();
+    r2Source = "cloudflare_r2_bucket";
   }
   return {
     ok: true,
