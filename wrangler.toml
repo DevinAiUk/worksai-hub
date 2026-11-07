@@ -1,0 +1,20 @@
+name = "worksai-hub"
+main = "src/worker.mjs"
+compatibility_date = "2025-11-01"
+
+[vars]
+BETTER_AUTH_URL = "https://worksai.org"
+NEON_PROJECT_ID = "flat-art-36324621"
+NEON_SCHEMA = "worksai_hub"
+UPSTREAM_ATTRIBUTION = "apptension/saas-boilerplate (MIT)"
+
+routes = [
+  { pattern = "worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "www.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "canvasarch.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "ledgerflow.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "wavecut.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "growthpulse.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "apisync.worksai.org/*", zone_name = "worksai.org" },
+  { pattern = "omnidesk.worksai.org/*", zone_name = "worksai.org" }
+]
