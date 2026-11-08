@@ -1,0 +1,25 @@
+# WorksAI Dots (it.worksai.org) — Production Wrangler Configuration v2.3.0
+# Canonical Host: https://it.worksai.org and https://it.worksai.org/demo
+# NOTE: app.worksai.org is strictly excluded and remains bound to worksai-hub.
+name = "worksai-dots"
+main = "worksai-dots-worker.mjs"
+compatibility_date = "2025-02-01"
+workers_dev = false
+
+routes = [
+  { pattern = "it.worksai.org", custom_domain = true }
+]
+
+[vars]
+WORKSAI_ENV = "production"
+ALLOW_LOCALHOST_HOSTS = "false"
+ALLOW_DEMO_LIVE_AI = "false"
+MAX_ARTIFACT_BYTES = "65536"
+MAX_HANDOFF_DEPTH = "5"
+
+[[r2_buckets]]
+binding = "WORKSAI_DATA_LAKE"
+bucket_name = "worksai-datalake"
+
+[ai]
+binding = "AI"
